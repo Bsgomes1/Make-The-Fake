@@ -5,35 +5,35 @@ class Menu extends Phaser.Scene {
 
     preload() {
         // load images/tile sprites
-        this.load.image('background', './assets/Neon_Background-2.png')
+        this.load.image('background', './Assets/Neon_Background-2.png')
 
-        this.load.image('projectile', './assets/shot1.png')
+        this.load.image('projectile', './Assets/shot1.png')
 
-        this.load.spritesheet('character', './assets/Phineas_Spritesheet.png', {
+        this.load.spritesheet('character', './Assets/Phineas_Spritesheet.png', {
             startFrame: 0,
             frameWidth: 200,
             frameHeight: 200
         })
         
-        this.load.spritesheet('cherry', './assets/Angry_Cherry.png', {
+        this.load.spritesheet('cherry', './Assets/Angry_Cherry.png', {
             startFrame: 0,
             frameWidth: 100,
             frameHeight: 100
         })
 
-        this.load.spritesheet('bird', './assets/Wierd_Bird.png', {
+        this.load.spritesheet('bird', './Assets/Wierd_Bird.png', {
             startFrame: 0,
             frameWidth: 100,
             frameHeight: 100
         })
 
         
-        this.load.image('leaf', './assets/Leaf_Platform.png')
-        this.load.image('reverse_leaf', './assets/Reversed_Leaf_Platform.png')
-        this.load.image('platform', './assets/platform.png')
+        this.load.image('leaf', './Assets/Leaf_Platform.png')
+        this.load.image('reverse_leaf', './Assets/Reversed_Leaf_Platform.png')
+        this.load.image('platform', './Assets/platform.png')
 
 
-        this.load.audio('shoot', './assets/Hairdryer_Shot.mp3')
+        this.load.audio('shoot', './Assets/Hairdryer_Shot.mp3')
 
 
     }
