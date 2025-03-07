@@ -7,7 +7,8 @@ class Menu extends Phaser.Scene {
         // load images/tile sprites
         this.load.image('background', './assets/Neon_Background-2.png')
 
-        
+        this.load.image('projectile', './assets/shot1.png')
+
         this.load.spritesheet('character', './assets/Phineas_Spritesheet.png', {
             startFrame: 0,
             frameWidth: 200,
