@@ -13,7 +13,7 @@ class Play extends Phaser.Scene {
         this.projectile = this.physics.add.group({
             defaultKey: 'projectile',  // This refers to the 'shot1.png' texture
             maxSize: 10                // Optional: Limits the number of active bullets
-        });
+        })
 
         
 
@@ -31,7 +31,7 @@ class Play extends Phaser.Scene {
 
         this.physics.add.collider(this.player, this.platforms)
 
-        this.cameras.main.setZoom(3)
+        this.cameras.main.setZoom(2.5)
         this.cameras.main.setBounds(0, 0, game.config.width, game.config.height)
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25)
 
@@ -259,10 +259,10 @@ class Play extends Phaser.Scene {
 
         // Keyboard input
         this.cursors = this.input.keyboard.addKeys({
-            up: Phaser.Input.Keyboard.KeyCodes.W,
-            down: Phaser.Input.Keyboard.KeyCodes.S,
-            left: Phaser.Input.Keyboard.KeyCodes.A,
-            right: Phaser.Input.Keyboard.KeyCodes.D
+            up: Phaser.Input.Keyboard.KeyCodes.UP,
+            down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+            left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+            right: Phaser.Input.Keyboard.KeyCodes.RIGHT
         })
 
 
@@ -326,24 +326,24 @@ class Play extends Phaser.Scene {
 
         // SHOOTING LOGIC (Pressing Spacebar while in the air or on the ground)
         if (isShooting) {
-            this.sound.play('shoot');  // Assuming you have a sound for shooting
+            this.sound.play('shoot') 
 
             // Create a bullet from the group
-            let bullet = this.projectile.get(this.player.x + (this.lastDirection === 'left' ? 0 : 10), this.player.y + 4);
+            let bullet = this.projectile.get(this.player.x + (this.lastDirection === 'left' ? 0 : 10), this.player.y + 4)
 
             if (bullet) {
-                bullet.setActive(true).setVisible(true);
-                bullet.setScale(0.5);  // Adjust bullet size if needed
-                bullet.setVelocityX(this.lastDirection === 'left' ? -40 : 40); // Move bullet left or right
+                bullet.setActive(true).setVisible(true)
+                bullet.setScale(0.5)  // Adjust bullet size if needed
+                bullet.setVelocityX(this.lastDirection === 'left' ? -40 : 40) // Move bullet left or right
                 
                 // Destroy the projectile when it leaves the world bounds
-                bullet.setCollideWorldBounds(true);
-                bullet.body.onWorldBounds = true;
+                bullet.setCollideWorldBounds(true)
+                bullet.body.onWorldBounds = true
                 this.physics.world.on('worldbounds', (body) => {
                     if (body.gameObject === bullet) {
-                        bullet.destroy();
+                        bullet.destroy()
                     }
-                });
+                })
             }
         }
 
