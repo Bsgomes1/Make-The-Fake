@@ -69,7 +69,7 @@ class Play extends Phaser.Scene {
         // Camera setup
         this.cameras.main.setZoom(2.5)
         this.cameras.main.setBounds(0, 0, game.config.width, game.config.height)
-        this.cameras.main.startFollow(this.player, true, 0.5, 0.5)
+        this.cameras.main.startFollow(this.player, true, 1, 1)
 
     if (!this.anims.exists('idle-right')) {
         this.anims.create({
