@@ -1,9 +1,8 @@
 // Name: Ben Gomes
-// Title: 
+// Title: Jump and Duck
 // Time: 
 
-// Sources: ChatGPT for when I was stuck, 
-// kenney.nl for sounds, 
+// Sources: ChatGPT for when I was stuck
 
 
 let config = {

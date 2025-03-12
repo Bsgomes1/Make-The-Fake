@@ -4,276 +4,360 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        // Display background
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0)
 
         this.platforms = this.physics.add.staticGroup()
-
-        // Inside your `create()` method (in the appropriate scene)
-        this.projectile = this.physics.add.group({
-            defaultKey: 'projectile',  // This refers to the 'shot1.png' texture
-            maxSize: 10                // Optional: Limits the number of active bullets
-        })
-
-        
 
         // Example platforms
         this.platforms.create(400, 500, 'platform').setScale(0.5).refreshBody()
         this.platforms.create(300, 300, 'platform').setScale(0.5).refreshBody()
         this.platforms.create(200, 400, 'platform').setScale(6, 1).refreshBody()
 
-        // Create player sprite
-        this.player = this.physics.add.sprite(200, 100, 'character', 1).setOrigin(0, 0).setScale(0.05)
+        // Create player sprite FIRST before adding collisions
+        this.player = this.physics.add.sprite(200, 100, 'character', 1).setOrigin(0, 0).setScale(0.10)
         this.player.body.setSize(200, 200).setOffset(0, 0) // Adjust hitbox
         this.player.body.setCollideWorldBounds(true) // Prevent player from moving off-screen
         this.player.body.setGravityY(500) // Apply gravity
 
-
-        this.physics.add.collider(this.player, this.platforms)
-
-        this.cameras.main.setZoom(2.5)
-        this.cameras.main.setBounds(0, 0, game.config.width, game.config.height)
-        this.cameras.main.startFollow(this.player, true, 0.25, 0.25)
-
-
-        if (!this.anims.exists('idle-right')) {
-            this.anims.create({
-                key: 'idle-right',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 0, end: 0 })
-            })
-        }
-
-        if (!this.anims.exists('idle-left')) {
-            this.anims.create({
-                key: 'idle-left',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 18, end: 18 })
-            })
-        }
-
-        if (!this.anims.exists('right')) {
-            this.anims.create({
-                key: 'right',
-                frameRate: 10,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 1, end: 3 })
-            })
-        }
-
-        if (!this.anims.exists('right-shoot')) {
-            this.anims.create({
-                key: 'right-shoot',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { 
-                    frames: [4]
-                })
-            })
-        }
-
-        if (!this.anims.exists('right-shoot-invincible')) {
-            this.anims.create({
-                key: 'right-shoot-invincible',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 10, end: 10 })
-            })
-        }
-
-        if (!this.anims.exists('left-shoot-invincible')) {
-            this.anims.create({
-                key: 'left-shoot-invincible',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 16, end: 16 })
-            })
-        }
-
-        if (!this.anims.exists('left-shoot')) {
-            this.anims.create({
-                key: 'left-shoot',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 22, end: 22 })
-            })
-        }
-
-        if (!this.anims.exists('right-crouch')) {
-            this.anims.create({
-                key: 'right-crouch',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 5, end: 5 })
-            })
-        }
-
-        if (!this.anims.exists('right-invincible')) {
-            this.anims.create({
-                key: 'right-invincible',
-                frameRate: 10,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 7, end: 9 })
-            })
-        }
-
-        if (!this.anims.exists('right-invincible-crouch')) {
-            this.anims.create({
-                key: 'right-invincible-crouch',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 11, end: 11 })
-            })
-        }
-
-        if (!this.anims.exists('left-invincible')) {
-            this.anims.create({
-                key: 'left-invincible',
-                frameRate: 10,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 13, end: 15 })
-            })
-        }
-
-        if (!this.anims.exists('left-invincible-crouch')) {
-            this.anims.create({
-                key: 'left-invincible-crouch',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 17, end: 17 })
-            })
-        }
-
-        if (!this.anims.exists('left')) {
-            this.anims.create({
-                key: 'left',
-                frameRate: 10,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 19, end: 21 })
-            })
-        }
-
-        if (!this.anims.exists('left-crouch')) {
-            this.anims.create({
-                key: 'left-crouch',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 23, end: 23 })
-            })
-        }
-
-        if (!this.anims.exists('left-damage')) {
-            this.anims.create({
-                key: 'left-damage',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 24, end: 24 })
-            })
-        }
-
-        if (!this.anims.exists('right-damage')) {
-            this.anims.create({
-                key: 'right-damage',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 25, end: 25 })
-            })
-        }
-
-
-        if (!this.anims.exists('right-jump')) {
-            this.anims.create({
-                key: 'right-jump',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 1, end: 1 })
-            })
-        }
-
-        if (!this.anims.exists('left-jump')) {
-            this.anims.create({
-                key: 'left-jump',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 19, end: 19 })
-            })
-        }
-
-
-        if (!this.anims.exists('invincible-right-jump')) {
-            this.anims.create({
-                key: 'invincible-right-jump',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 7, end: 7 })
-            })
-        }
-
-        if (!this.anims.exists('invincible-left-jump')) {
-            this.anims.create({
-                key: 'invincible-left-jump',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('character', { start: 13, end: 13 })
-            })
-        }
-
-        if (!this.anims.exists('cherry-left')) {
-            this.anims.create({
-                key: 'cherry-left',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('cherry', { start: 0, end: 1 })
-            })
-        }
-
-        if (!this.anims.exists('cherry-right')) {
-            this.anims.create({
-                key: 'cherry-right',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('cherry', { start: 2, end: 3 })
-            })
-        }
-
-        if (!this.anims.exists('bird-left')) {
-            this.anims.create({
-                key: 'bird-left',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('bird', { start: 0, end: 2 })
-            })
-        }
-
-        if (!this.anims.exists('bird-right')) {
-            this.anims.create({
-                key: 'bird-right',
-                frameRate: 5,
-                repeat: -1,
-                frames: this.anims.generateFrameNumbers('bird', { start: 3, end: 5 })
-            })
-        }
-
-
-        // Keyboard input
-        this.cursors = this.input.keyboard.addKeys({
-            up: Phaser.Input.Keyboard.KeyCodes.UP,
-            down: Phaser.Input.Keyboard.KeyCodes.DOWN,
-            left: Phaser.Input.Keyboard.KeyCodes.LEFT,
-            right: Phaser.Input.Keyboard.KeyCodes.RIGHT
+        // Projectiles
+        this.projectile = this.physics.add.group({
+            defaultKey: 'projectile',
+            maxSize: 10
         })
 
+        // Create enemies
+        this.cherries = this.physics.add.group({
+            runChildUpdate: true,
+            allowGravity: false
+        })
 
-        //console.log(this.anims)
-        //this.player.play('fly')
+        this.birds = this.physics.add.group({
+            runChildUpdate: true,
+            allowGravity: false
+        })
 
-        //console.log(this.anims.getTotalFrames)
+        // Spawn multiple cherries
+        let cherryPositions = [
+            { x: 500, y: 450 },
+            { x: 300, y: 250 },
+            { x: 700, y: 300 }
+        ]
 
-        this.gameOverFlag = false // Track if the game is over
 
+
+        // Spawn multiple birds
+        let birdPositions = [
+            { x: 600, y: 100 },
+            { x: 200, y: 200 },
+            { x: 800, y: 150 }
+        ]
+
+        //enemy collision
+        this.physics.add.collider(this.projectile, this.cherries, this.hitEnemy, null, this);
+        this.physics.add.collider(this.projectile, this.birds, this.hitEnemy, null, this);
+
+
+        // Add collisions with platforms
+        this.physics.add.collider(this.cherries, this.platforms)
+        this.physics.add.collider(this.birds, this.platforms)
+
+        // THEN add player collisions
+        this.physics.add.collider(this.player, this.platforms)
+        this.physics.add.collider(this.player, this.cherries, this.hitPlayer, null, this)
+        this.physics.add.collider(this.player, this.birds, this.hitPlayer, null, this)
+
+        // Camera setup
+        this.cameras.main.setZoom(2.5)
+        this.cameras.main.setBounds(0, 0, game.config.width, game.config.height)
+        this.cameras.main.startFollow(this.player, true, 0.5, 0.5)
+
+    if (!this.anims.exists('idle-right')) {
+        this.anims.create({
+            key: 'idle-right',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 0, end: 0 })
+        })
+    }
+
+    if (!this.anims.exists('idle-left')) {
+        this.anims.create({
+            key: 'idle-left',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 18, end: 18 })
+        })
+    }
+
+    if (!this.anims.exists('right')) {
+        this.anims.create({
+            key: 'right',
+            frameRate: 7,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', {
+                frames: [1,2,3,0]
+            })
+        })
+    }
+
+    if (!this.anims.exists('right-shoot')) {
+        this.anims.create({
+            key: 'right-shoot',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { 
+                frames: [4]
+            })
+        })
+    }
+
+    if (!this.anims.exists('right-shoot-invincible')) {
+        this.anims.create({
+            key: 'right-shoot-invincible',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 10, end: 10 })
+        })
+    }
+
+    if (!this.anims.exists('left-shoot-invincible')) {
+        this.anims.create({
+            key: 'left-shoot-invincible',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 16, end: 16 })
+        })
+    }
+
+    if (!this.anims.exists('left-shoot')) {
+        this.anims.create({
+            key: 'left-shoot',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 22, end: 22 })
+        })
+    }
+
+    if (!this.anims.exists('right-crouch')) {
+        this.anims.create({
+            key: 'right-crouch',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 5, end: 5 })
+        })
+    }
+
+    if (!this.anims.exists('right-invincible')) {
+        this.anims.create({
+            key: 'right-invincible',
+            frameRate: 10,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { 
+                frames: [7, 8, 9, 6]
+            })
+        })
+    }
+
+    if (!this.anims.exists('right-invincible-crouch')) {
+        this.anims.create({
+            key: 'right-invincible-crouch',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 11, end: 11 })
+        })
+    }
+
+    if (!this.anims.exists('left-invincible')) {
+        this.anims.create({
+            key: 'left-invincible',
+            frameRate: 10,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { 
+                frames: [13, 14, 15, 12]
+            })
+        })
+    }
+
+    if (!this.anims.exists('left-invincible-crouch')) {
+        this.anims.create({
+            key: 'left-invincible-crouch',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 17, end: 17 })
+        })
+    }
+
+    if (!this.anims.exists('left')) {
+        this.anims.create({
+            key: 'left',
+            frameRate: 7,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { 
+                frames: [ 19, 20, 21, 18]
+            })
+        })
+    }
+
+    if (!this.anims.exists('left-crouch')) {
+        this.anims.create({
+            key: 'left-crouch',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 23, end: 23 })
+        })
+    }
+
+    if (!this.anims.exists('left-damage')) {
+        this.anims.create({
+            key: 'left-damage',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 24, end: 24 })
+        })
+    }
+
+    if (!this.anims.exists('right-damage')) {
+        this.anims.create({
+            key: 'right-damage',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 25, end: 25 })
+        })
+    }
+
+
+    if (!this.anims.exists('right-jump')) {
+        this.anims.create({
+            key: 'right-jump',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 1, end: 1 })
+        })
+    }
+
+    if (!this.anims.exists('left-jump')) {
+        this.anims.create({
+            key: 'left-jump',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 19, end: 19 })
+        })
+    }
+
+
+    if (!this.anims.exists('invincible-right-jump')) {
+        this.anims.create({
+            key: 'invincible-right-jump',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 7, end: 7 })
+        })
+    }
+
+    if (!this.anims.exists('invincible-left-jump')) {
+        this.anims.create({
+            key: 'invincible-left-jump',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('character', { start: 13, end: 13 })
+        })
+    }
+
+    if (!this.anims.exists('cherry-left')) {
+        this.anims.create({
+            key: 'cherry-left',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('cherry', { start: 0, end: 1 })
+        })
+    }
+
+    if (!this.anims.exists('cherry-right')) {
+        this.anims.create({
+            key: 'cherry-right',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('cherry', { start: 2, end: 3 })
+        })
+    }
+
+    if (!this.anims.exists('bird-left')) {
+        this.anims.create({
+            key: 'bird-left',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('bird', { start: 0, end: 2 })
+        })
+    }
+
+    if (!this.anims.exists('bird-right')) {
+        this.anims.create({
+            key: 'bird-right',
+            frameRate: 5,
+            repeat: -1,
+            frames: this.anims.generateFrameNumbers('bird', { start: 3, end: 5 })
+        })
+    }
+
+
+    // Keyboard input
+    this.cursors = this.input.keyboard.addKeys({
+        up: Phaser.Input.Keyboard.KeyCodes.UP,
+        down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+        left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+        right: Phaser.Input.Keyboard.KeyCodes.RIGHT
+    })
+
+
+    //console.log(this.anims)
+    //this.player.play('fly')
+
+    //console.log(this.anims.getTotalFrames)
+
+    this.gameOverFlag = false // Track if the game is over
+
+
+    cherryPositions.forEach(pos => {
+        let cherry = this.cherries.create(pos.x, pos.y, 'cherry').setScale(0.5)
+        if (cherry.body) {
+            cherry.body.setVelocityX(50) // Move right
+            cherry.setBounce(1)
+            cherry.setCollideWorldBounds(true)
+            cherry.play('cherry-right') // Play animation
+        }
+    })
+
+    birdPositions.forEach(pos => {
+        let bird = this.birds.create(pos.x, pos.y, 'bird').setScale(0.5)
+        if (bird.body) {
+            bird.body.setVelocityX(-50) // Move left
+            bird.setBounce(1)
+            bird.setCollideWorldBounds(true)
+            bird.play('bird-left') // Play animation
+        }
+    })
+
+    this.time.addEvent({
+        delay: 1000,  // Every second
+        loop: true,
+        callback: () => {
+            this.birds.children.iterate(bird => {
+                if (bird && bird.active && Phaser.Math.Between(0, 1) === 0) { // Ensure bird exists
+                    bird.setVelocityY(100);  // Move downward
+                    
+                    this.time.delayedCall(500, () => {
+                        if (bird && bird.active) {  // Check if bird still exists before modifying
+                            bird.setVelocityY(0); // Stop swooping after 0.5 sec
+                        }
+                    });
+                }
+            });
+        }
+    });
     
+    
+
+    // make a hairdryer in the top right/left to dysplay how many shot you have left
     }
 
     
@@ -290,14 +374,14 @@ class Play extends Phaser.Scene {
     
         // MOVEMENT LOGIC
         if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-200)
+            this.player.setVelocityX(-100)
             if (!isJumping && !isCrouching && !isShooting) {
                 this.player.play('left', true)
             }
             this.lastDirection = 'left'
             isMoving = true
         } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(200)
+            this.player.setVelocityX(100)
             if (!isJumping && !isCrouching && !isShooting) {
                 this.player.play('right', true)
             }
@@ -318,7 +402,7 @@ class Play extends Phaser.Scene {
     
         // JUMPING LOGIC
         if (this.cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-400)
+            this.player.setVelocityY(-300)
             this.player.play(this.lastDirection === 'left' ? 'left-jump' : 'right-jump', true)
         } else if (isJumping && !isShooting) {
             this.player.play(this.lastDirection === 'left' ? 'left-jump' : 'right-jump', true)
@@ -327,14 +411,14 @@ class Play extends Phaser.Scene {
         // SHOOTING LOGIC (Pressing Spacebar while in the air or on the ground)
         if (isShooting) {
             this.sound.play('shoot') 
-
+            this.player.play(this.lastDirection === 'left' ? 'left-shoot' : 'right-shoot', true)
             // Create a bullet from the group
-            let bullet = this.projectile.get(this.player.x + (this.lastDirection === 'left' ? 0 : 10), this.player.y + 4)
+            let bullet = this.projectile.get(this.player.x + (this.lastDirection === 'left' ? 0 : 20), this.player.y + 9)
 
             if (bullet) {
                 bullet.setActive(true).setVisible(true)
                 bullet.setScale(0.5)  // Adjust bullet size if needed
-                bullet.setVelocityX(this.lastDirection === 'left' ? -40 : 40) // Move bullet left or right
+                bullet.setVelocityX(this.lastDirection === 'left' ? -100 : 100) // Move bullet left or right
                 
                 // Destroy the projectile when it leaves the world bounds
                 bullet.setCollideWorldBounds(true)
@@ -347,12 +431,59 @@ class Play extends Phaser.Scene {
             }
         }
 
+        // enemy movement
+        this.cherries.children.iterate(cherry => {
+            if (cherry.body.velocity.x > 0) {
+                cherry.play('cherry-right', true);
+                cherry.body.setVelocityX(50)
+            } else {
+                cherry.play('cherry-left', true);
+                cherry.body.setVelocityX(-50)
+            }
+        });
+        
+        this.birds.children.iterate(bird => {
+            if (bird.body.velocity.x > 0) {
+                bird.play('bird-right', true);
+            } else {
+                bird.play('bird-left', true);
+            }
+        });
+        
+
         
         
     }
         
     
+    hitPlayer(player, enemy) {
+        if (!enemy || !enemy.body) return // Prevent undefined error
+        console.log("Player hit!")
+        enemy.destroy()
+    }
+
+    hitEnemy(projectile, enemy) {
+        if (!enemy || !enemy.body) return;
     
+        if (enemy.texture.key === 'bird') {
+            enemy.destroy();  // Birds die instantly
+        } else if (enemy.texture.key === 'cherry') {
+            enemy.hitCount = (enemy.hitCount || 0) + 1; // Track hits
+            enemy.setTint(0xff0000); // Flash red
+    
+            this.time.delayedCall(200, () => {
+                enemy.clearTint(); // Remove red tint after 200ms
+            });
+    
+            if (enemy.hitCount >= 3) {
+                enemy.destroy(); // Destroy cherry after 3 hits
+            }
+        }
+    
+        projectile.destroy(); // Destroy projectile on hit
+    }
+    
+
 
 
 
