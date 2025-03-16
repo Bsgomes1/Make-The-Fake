@@ -6,6 +6,10 @@ class Menu extends Phaser.Scene {
     preload() {
         // load images/tile sprites
         this.load.image('background', './Assets/Neon_Background-2.png')
+        this.load.image('clouds', './Assets/Clouds.png')
+        this.load.image('bean', './Assets/beanstalk.png')
+        this.load.image('heads', './Assets/Phineas_Head.png')
+        
 
         this.load.image('projectile', './Assets/shot1.png')
 
