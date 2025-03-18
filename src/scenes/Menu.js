@@ -9,6 +9,8 @@ class Menu extends Phaser.Scene {
         this.load.image('clouds', './Assets/Clouds.png')
         this.load.image('bean', './Assets/beanstalk.png')
         this.load.image('heads', './Assets/Phineas_Head.png')
+
+        this.load.image('one_way', './Assets/one_way_platform.png')
         
 
         this.load.image('projectile', './Assets/shot1.png')
@@ -30,6 +32,13 @@ class Menu extends Phaser.Scene {
             frameWidth: 100,
             frameHeight: 100
         })
+
+        this.load.spritesheet('boss', './Assets/big_boss.png', {
+            startFrame: 0,
+            frameWidth: 100,
+            frameHeight: 100
+        })
+        
 
         
         this.load.image('leaf', './Assets/Leaf_Platform.png')
