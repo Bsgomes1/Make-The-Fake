@@ -46,10 +46,10 @@ class Play extends Phaser.Scene {
         let platform5 = this.oneWayPlatforms2.create(850, 100, 'one_way').setScale(1, 0.5).refreshBody()
         platform5.body.checkCollision.down = false
         
-        let barrier1 = this.platforms.create(515, 100, 'platform').setScale(4, 1)
+        let barrier1 = this.platforms.create(510, 100, 'platform').setScale(4, 1)
         barrier1.setAngle(90)
         barrier1.body.setSize(20, 300).setOffset(16,-190)
-        let barrier2 = this.platforms.create(885, 100, 'platform').setScale(4, 1)
+        let barrier2 = this.platforms.create(890, 100, 'platform').setScale(4, 1)
         barrier2.setAngle(-90)
         barrier2.body.setSize(20, 300).setOffset(16,-190)
 
@@ -104,6 +104,14 @@ class Play extends Phaser.Scene {
             { x: 720, y: 430 },
             { x: 640, y: 380 },
             { x: 720, y: 340 },
+            { x: 720, y: 100 },
+            { x: 700, y: 150 },
+            { x: 690, y: 150 },
+            { x: 720, y: 150 },
+            { x: 800, y: 150 },
+            { x: 520, y: 20 },
+            { x: 520, y: 60 },
+            { x: 560, y: 100 },
         ]
 
         // Spawn multiple birds
@@ -118,6 +126,9 @@ class Play extends Phaser.Scene {
             { x: 450, y: 450 },
             { x: 300, y: 300 },
             { x: 200, y: 300 },
+            { x: 600, y: 100 },
+            { x: 800, y: 130 },
+            { x: 550, y: 0 },
         ]
 
         //enemy collision
@@ -395,96 +406,18 @@ class Play extends Phaser.Scene {
         this.gameOverFlag = false
         this.invincible = false // Set player invincibility state to false at the start
 
-        this.num_enemies = 22
+        this.num_enemies = 33
+            // Assuming the ammo count is already displayed, place this text right below it
+        this.enemyText = this.add.text(340, 280, `Enemies: ${this.num_enemies}`, {
+            fontSize: '8px',
+            fill: '#fff'
+        }).setScrollFactor(0) // Ensures it stays fixed on the screen
+        .setResolution(5)
+
     }
 
 
     update() {
-        // if (this.lives <= 0 && !this.gameOverFlag) {
-        //     this.gameOver()
-        //     return
-        // }
-
-        // this.clouds.tilePositionX += 0.25
-
-        // if (this.player.y >= 650) {
-        //     this.lives--    
-        //     this.lifeIcons[this.lives].destroy()        
-        //     this.player.y = 200
-        //     this.player.x = 0
-        // }
-
-        // let isMoving = false
-        // let isJumping = !this.player.body.touching.down
-        // let isCrouching = this.cursors.down.isDown
-        // let isShooting = this.input.keyboard.checkDown(
-        //     this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
-        //     250
-        // )
-        // this.isCrouching = false
-
-        // // MOVEMENT LOGIC
-        // if (this.cursors.left.isDown) {
-        //     this.player.setVelocityX(-100)
-        //     if (!isJumping && !isCrouching && !isShooting) {
-        //         this.player.play('left', true)
-        //     }
-        //     this.lastDirection = 'left'
-        //     isMoving = true
-        // } else if (this.cursors.right.isDown) {
-        //     this.player.setVelocityX(100)
-        //     if (!isJumping && !isCrouching && !isShooting) {
-        //         this.player.play('right', true)
-        //     }
-        //     this.lastDirection = 'right'
-        //     isMoving = true
-        // } else {
-        //     this.player.setVelocityX(0)
-        //     if (!isJumping && !isCrouching) {
-        //         this.player.play(this.lastDirection === 'left' ? 'idle-left' : 'idle-right', true)
-        //     }
-        // }
-
-        // // CROUCHING LOGIC (Pressing 'S')
-        // if (isCrouching && !isJumping && !isShooting) {
-        //     this.isCrouching = true
-        //     this.player.setVelocityX(0) // Stop movement when crouching
-        //     this.player.play(this.lastDirection === 'left' ? 'left-crouch' : 'right-crouch', true)
-        //     this.player.body.checkCollision.down = true
-        // }
-
-        // // JUMPING LOGIC
-        // if (this.cursors.up.isDown && this.player.body.touching.down) {
-        //     this.player.setVelocityY(-250)
-        //     this.player.play(this.lastDirection === 'left' ? 'left-jump' : 'right-jump', true)
-        // } else if (isJumping && !isShooting) {
-        //     this.player.play(this.lastDirection === 'left' ? 'left-jump' : 'right-jump', true)
-        // }
-
-        // // SHOOTING LOGIC
-        // if (isShooting && this.ammo > 0) { // Only shoot if ammo > 0
-        //     this.sound.play('shoot')
-        //     this.player.play(this.lastDirection === 'left' ? 'left-shoot' : 'right-shoot', true)
-        
-        //     let bullet = this.projectile.get(this.player.x + (this.lastDirection === 'left' ? 2 : 7), this.player.y + 4)
-        //     if (bullet) {
-        //         bullet.setActive(true).setVisible(true)
-        //         bullet.setScale(0.5)
-        //         bullet.setVelocityX(this.lastDirection === 'left' ? -100 : 100)
-        
-        //         bullet.setCollideWorldBounds(true)
-        //         bullet.body.onWorldBounds = true
-        //         this.physics.world.on('worldbounds', (body) => {
-        //             if (body.gameObject === bullet) {
-        //                 bullet.destroy()
-        //             }
-        //         })
-        
-        //         this.ammo-- // Reduce ammo count
-        //         this.updateAmmoDisplay() // Update UI
-        //     }
-        // }
-        
         if (this.lives <= 0 && !this.gameOverFlag) {
             this.gameOver()
             return
@@ -495,8 +428,21 @@ class Play extends Phaser.Scene {
         if (this.player.y >= 650) {
             this.lives--    
             this.lifeIcons[this.lives].destroy()        
-            this.player.y = 200
+            this.player.y = 300
             this.player.x = 0
+            this.randomNum = Math.floor(Math.random() * 3)
+            if (this.randomNum == 0) {
+                this.sound.play('player_hurt_1')
+            }
+            if (this.randomNum == 1) {
+                this.sound.play('player_hurt_2')
+            }
+            if (this.randomNum == 2) {
+                this.sound.play('player_hurt_1')
+            }
+            if (this.randomNum == 3) {
+                this.sound.play('player_hurt_2')
+            }
         }
     
         let isMoving = false
@@ -530,40 +476,6 @@ class Play extends Phaser.Scene {
             }
         }
     
-        // CROUCHING LOGIC (Pressing 'S')
-        // if (isCrouching && !isJumping && !isShooting) {
-        //     this.isCrouching = true
-        //     this.player.setVelocityX(0) // Stop movement when crouching
-        //     this.player.play(this.lastDirection === 'left' ? 'left-crouch' : 'right-crouch', true)
-        //     this.player.body.checkCollision.down = true
-        // } else if (isCrouching && !this.player.body.touching.down) {
-        //     // Allow the player to pass through one-way platforms while crouching
-        //     this.player.body.checkCollision.down = false
-        // }
-        // CROUCHING LOGIC (Pressing 'S')
-        // if (isCrouching && !isJumping && !isShooting) {
-        //     this.isCrouching = true
-        //     this.player.setVelocityX(0) // Stop movement when crouching
-        //     this.player.play(this.lastDirection === 'left' ? 'left-crouch' : 'right-crouch', true)
-        //     this.player.body.checkCollision.down = false // Allow going through the platform when crouching
-        // } else {
-        //     this.isCrouching = false
-        //     this.player.body.checkCollision.down = true // Reset collision for normal platform behavior
-        // }
-
-        // CROUCHING LOGIC (Pressing 'S' or Down Arrow)
-        // if (this.cursors.down.isDown && !this.isJumping && !this.isShooting) {
-        //     this.isCrouching = true;
-        //     this.player.setVelocityX(0); // Stop movement when crouching
-        //     this.player.play(this.lastDirection === 'left' ? 'left-crouch' : 'right-crouch', true);
-        // } else {
-        //     this.isCrouching = false;
-        // }
-
-        // // Ensure other animations don't override crouching
-        // if (this.isCrouching) {
-        //     return; // Prevents any other animation from playing while crouching
-        // }
         // CROUCHING LOGIC (preesing 'Down Arrow)
         if (this.cursors.down.isDown && !this.isJumping && !this.isShooting) {
             this.isCrouching = true;
@@ -596,15 +508,17 @@ class Play extends Phaser.Scene {
         }
     
         // SHOOTING LOGIC
-        if (isShooting && this.ammo > 0) { // Only shoot if ammo > 0
-            this.sound.play('shoot')
+        if (!this.gameOverFlag && isShooting && this.ammo > 0) { // Only shoot if ammo > 0
+            this.sound.play('shoot', { 
+                volume: 0.5 
+            })
             this.player.play(this.lastDirection === 'left' ? 'left-shoot' : 'right-shoot', true)
         
             let bullet = this.projectile.get(this.player.x + (this.lastDirection === 'left' ? 2 : 7), this.player.y + 4)
             if (bullet) {
                 bullet.setActive(true).setVisible(true)
                 bullet.setScale(0.5)
-                bullet.setVelocityX(this.lastDirection === 'left' ? -100 : 100)
+                bullet.setVelocityX(this.lastDirection === 'left' ? -140 : 140)
         
                 bullet.setCollideWorldBounds(true)
                 bullet.body.onWorldBounds = true
@@ -662,7 +576,11 @@ class Play extends Phaser.Scene {
                     reverse_leafs.getBounds().contains(aheadX, aheadY)
                 )
 
-                if (touchingGround && !onPlatform && !onLeaf && !onReverseLeaf) {
+                let onOneWay = this.oneWayPlatforms.getChildren().some(oneWays =>
+                    oneWays.getBounds().contains(aheadX, aheadY)
+                )
+
+                if (touchingGround && !onPlatform && !onLeaf && !onReverseLeaf && !onOneWay) {
                     cherry.setVelocityX(-cherry.body.velocity.x) // Reverse direction
                     cherry.play(cherry.body.velocity.x > 0 ? 'cherry-right' : 'cherry-left')
                 }
@@ -673,6 +591,7 @@ class Play extends Phaser.Scene {
         if (this.num_enemies == 0) {
             this.gameWin()
         }
+        this.enemyText.setText(`Enemies: ${this.num_enemies}`)
 
     }
 
@@ -683,6 +602,20 @@ class Play extends Phaser.Scene {
         this.invincible = true
     
         // Play damage animation (Flash red)
+        this.randomNum = Math.floor(Math.random() * 3)
+        if (this.randomNum == 0) {
+            this.sound.play('player_hurt_1')
+        }
+        if (this.randomNum == 1) {
+            this.sound.play('player_hurt_2')
+        }
+        if (this.randomNum == 2) {
+            this.sound.play('player_hurt_1')
+        }
+        if (this.randomNum == 3) {
+            this.sound.play('player_hurt_2')
+        }
+
         this.player.setTint(0xff0000)
         this.time.delayedCall(250, () => {
             this.player.clearTint()
@@ -708,9 +641,23 @@ class Play extends Phaser.Scene {
         if (!enemy || !enemy.body) return;
     
         if (enemy.texture.key === 'bird') {
+            this.sound.play('bird_hurt')    
             enemy.destroy();  // Birds die instantly
             this.num_enemies = this.num_enemies - 1
         } else if (enemy.texture.key === 'cherry') {
+            this.randomNum = Math.floor(Math.random() * 3)
+                if (this.randomNum == 0) {
+                    this.sound.play('cherry_hurt_1')
+                }
+                if (this.randomNum == 1) {
+                    this.sound.play('cherry_hurt_2')
+                }
+                if (this.randomNum == 2) {
+                    this.sound.play('cherry_hurt_3')
+                }
+                if (this.randomNum == 3) {
+                    this.sound.play('cherry_hurt_4')
+                }
             enemy.hitCount = (enemy.hitCount || 0) + 1;  // Track hits
             enemy.setTint(0xff0000);  // Flash red
     
@@ -731,7 +678,7 @@ class Play extends Phaser.Scene {
         if (!this.gameOverFlag) {  // Prevent multiple triggers
             this.gameOverFlag = true
             this.physics.pause()
-            console.log("Game Over!")
+            //console.log("Game Over!")
     
             // Stop player movement
             this.player.setVelocity(0, 0)
@@ -748,7 +695,7 @@ class Play extends Phaser.Scene {
     
             // Display a "Game Over" message at the center of the camera
             this.add.text(cameraCenterX, cameraCenterY - 15, 'GAME OVER', 
-                { fontSize: '32px', fill: '#fff' })
+                { fontSize: '32px', fill: '#FF0000' })
                 .setOrigin(0.5)
                 .setResolution(5)
             this.add.text(cameraCenterX, cameraCenterY + 25, 'R to Restart', 
@@ -776,7 +723,7 @@ class Play extends Phaser.Scene {
         if (!this.gameOverFlag) {  // Prevent multiple triggers
             this.gameOverFlag = true
             this.physics.pause()
-            console.log("You Win!")
+            //console.log("You Win!")
     
             // Stop player movement
             this.player.setVelocity(0, 0)
@@ -793,7 +740,7 @@ class Play extends Phaser.Scene {
     
             // Display a "Game Over" message at the center of the camera
             this.add.text(cameraCenterX, cameraCenterY - 15, 'You Win', 
-                { fontSize: '32px', fill: '#fff' })
+                { fontSize: '32px', fill: '#008000' })
                 .setOrigin(0.5)
                 .setResolution(5)
             this.add.text(cameraCenterX, cameraCenterY + 25, 'R to Restart', 
