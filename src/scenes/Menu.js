@@ -32,12 +32,6 @@ class Menu extends Phaser.Scene {
             frameWidth: 100,
             frameHeight: 100
         })
-
-        this.load.spritesheet('boss', './Assets/big_boss.png', {
-            startFrame: 0,
-            frameWidth: 100,
-            frameHeight: 100
-        })
         
 
         

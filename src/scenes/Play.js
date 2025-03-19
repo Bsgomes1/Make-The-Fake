@@ -352,7 +352,7 @@ class Play extends Phaser.Scene {
                             bird.y = 250
                             bird.x = 350
                         }
-                        if (bird.y >= 550 && bird.x <= 300) {
+                        if (bird.y >= 550 && bird.x <= 200) {
                             bird.y = 250
                             bird.x = 350
                         }

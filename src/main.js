@@ -1,6 +1,6 @@
 // Name: Ben Gomes
 // Title: Jump and Duck
-// Time: 
+// Time: around 455 hours (idk i didn't time it well)
 
 // Sources: ChatGPT for when I was stuck
 
