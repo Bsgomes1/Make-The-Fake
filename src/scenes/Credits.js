@@ -31,7 +31,6 @@ class Credits extends Phaser.Scene {
             color: '#FF0000'
         }).setOrigin(0.5)
 
-        // Left-click returns to the menu
         this.input.keyboard.once('keydown-SPACE', () => {
             this.scene.start('menuScene')
         })

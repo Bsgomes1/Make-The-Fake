@@ -65,7 +65,6 @@ class Play extends Phaser.Scene {
 
 
         // Create player sprite 
-        // this.player = this.physics.add.sprite(0, 300, 'character', 1).setOrigin(0, 0).setScale(0.05)
         this.player = this.physics.add.sprite(0, 300, 'character', 1).setOrigin(0, 0).setScale(0.05)
 
         this.player.body.setSize(200, 200).setOffset(0, 0) // Adjust hitbox
@@ -76,7 +75,6 @@ class Play extends Phaser.Scene {
         // Projectiles
         this.projectile = this.physics.add.group({
             defaultKey: 'projectile',
-            //maxSize: 5
         })
 
         // Create enemies
@@ -316,26 +314,24 @@ class Play extends Phaser.Scene {
         cherryPositions.forEach(pos => {
             let cherry = this.cherries.create(pos.x, pos.y, 'cherry').setScale(0.25).setOffset(0, -15).setSize(100, 80)
             if (cherry.body) {
-                cherry.body.setVelocityX(50) // Move right
+                cherry.body.setVelocityX(50) 
                 cherry.setBounce(0)
                 cherry.setCollideWorldBounds(true)
 
-                cherry.play('cherry-right') // Play animation
+                cherry.play('cherry-right') 
                 cherry.body.setGravityY(500)
 
             }
         })
         this.physics.add.collider(this.cherries, this.platforms)
-        //this.physics.add.overlap(this.projectile, this.cherries, this.hitCherry, null, this)
-
 
         birdPositions.forEach(pos => {
             let bird = this.birds.create(pos.x, pos.y, 'bird').setScale(0.25)
             if (bird.body) {
-                bird.body.setVelocityX(-50) // Move left
+                bird.body.setVelocityX(-50) 
                 bird.setBounce(1)
                 bird.setCollideWorldBounds(true)
-                bird.play('bird-left') // Play animation
+                bird.play('bird-left') 
             }
         })
 
@@ -670,7 +666,6 @@ class Play extends Phaser.Scene {
                 this.num_enemies = this.num_enemies - 1
             }
         }
-        // Ensure projectile does not affect enemy velocity
         projectile.destroy()  // Destroy projectile on hit
     }
     
@@ -775,7 +770,7 @@ class Play extends Phaser.Scene {
         if (this.isCrouching && this.cursors.down.isDown) {
             // Reset the player's position above the platform and disable collision temporarily
             player.setVelocityY(0) // Prevents sudden drop
-            player.y = player.y +4//platform.y + 15//platform.height // Position player just below the platform
+            player.y = player.y + 4
             player.body.checkCollision.down = false // Allow passing through
         } else if (player.body.touching.down && !this.isCrouching) {
             player.body.checkCollision.down = true // Normal collision behavior when not crouching
