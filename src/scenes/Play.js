@@ -157,8 +157,8 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.reverse_leaf)
         this.physics.add.collider(this.player, this.cherries, this.hitPlayer, null, this)
         this.physics.add.collider(this.player, this.birds, this.hitPlayer, null, this)
-        this.physics.add.collider(this.player, this.oneWayPlatforms);
-        this.physics.add.collider(this.player, this.oneWayPlatforms2);
+        this.physics.add.collider(this.player, this.oneWayPlatforms)
+        this.physics.add.collider(this.player, this.oneWayPlatforms2)
         this.physics.add.overlap(this.player, this.oneWayPlatforms, this.handleOneWayPlatformCollision, null, this)
         this.physics.add.overlap(this.player, this.oneWayPlatforms2, this.handleOneWayPlatformCollision, null, this)
         
@@ -396,7 +396,7 @@ class Play extends Phaser.Scene {
             loop: true,
             callback: () => {
                 if (this.ammo < 5) {
-                    this.ammo++;
+                    this.ammo++
                     this.updateAmmoDisplay()
                 }
             }
@@ -478,24 +478,24 @@ class Play extends Phaser.Scene {
     
         // CROUCHING LOGIC (preesing 'Down Arrow)
         if (this.cursors.down.isDown && !this.isJumping && !this.isShooting) {
-            this.isCrouching = true;
-            this.player.setVelocityX(0); // Stop movement when crouching
-            this.player.play(this.lastDirection === 'left' ? 'left-crouch' : 'right-crouch', true);
+            this.isCrouching = true
+            this.player.setVelocityX(0) // Stop movement when crouching
+            this.player.play(this.lastDirection === 'left' ? 'left-crouch' : 'right-crouch', true)
 
             // Allow the player to drop through one-way platforms
             if (Phaser.Input.Keyboard.JustDown(this.cursors.down)) {
-                this.player.body.checkCollision.down = false; // Temporarily disable collision
+                this.player.body.checkCollision.down = false // Temporarily disable collision
                 this.time.delayedCall(250, () => {
-                    this.player.body.checkCollision.down = true; // Re-enable collision after delay
-                });
+                    this.player.body.checkCollision.down = true // Re-enable collision after delay
+                })
             }
         } else {
-            this.isCrouching = false;
+            this.isCrouching = false
         }
 
         // Ensure other animations don't override crouching
         if (this.isCrouching) {
-            return; // Prevents any other animation from playing while crouching
+            return // Prevents any other animation from playing while crouching
         }
 
 
@@ -638,11 +638,11 @@ class Play extends Phaser.Scene {
     }
     
     hitEnemy(projectile, enemy) {
-        if (!enemy || !enemy.body) return;
+        if (!enemy || !enemy.body) return
     
         if (enemy.texture.key === 'bird') {
             this.sound.play('bird_hurt')    
-            enemy.destroy();  // Birds die instantly
+            enemy.destroy()  // Birds die instantly
             this.num_enemies = this.num_enemies - 1
         } else if (enemy.texture.key === 'cherry') {
             this.randomNum = Math.floor(Math.random() * 3)
@@ -658,20 +658,20 @@ class Play extends Phaser.Scene {
                 if (this.randomNum == 3) {
                     this.sound.play('cherry_hurt_4')
                 }
-            enemy.hitCount = (enemy.hitCount || 0) + 1;  // Track hits
-            enemy.setTint(0xff0000);  // Flash red
+            enemy.hitCount = (enemy.hitCount || 0) + 1  // Track hits
+            enemy.setTint(0xff0000)  // Flash red
     
             this.time.delayedCall(200, () => {
-                enemy.clearTint();  // Remove red tint after 200ms
-            });
+                enemy.clearTint()  // Remove red tint after 200ms
+            })
     
             if (enemy.hitCount >= 3) {
-                enemy.destroy();  // Destroy cherry after 3 hits
+                enemy.destroy()  // Destroy cherry after 3 hits
                 this.num_enemies = this.num_enemies - 1
             }
         }
         // Ensure projectile does not affect enemy velocity
-        projectile.destroy();  // Destroy projectile on hit
+        projectile.destroy()  // Destroy projectile on hit
     }
     
     gameOver() {
@@ -774,19 +774,19 @@ class Play extends Phaser.Scene {
         // If player is crouching and pressing down, allow passing through
         if (this.isCrouching && this.cursors.down.isDown) {
             // Reset the player's position above the platform and disable collision temporarily
-            player.setVelocityY(0); // Prevents sudden drop
-            player.y = player.y +4//platform.y + 15//platform.height; // Position player just below the platform
-            player.body.checkCollision.down = false; // Allow passing through
+            player.setVelocityY(0) // Prevents sudden drop
+            player.y = player.y +4//platform.y + 15//platform.height // Position player just below the platform
+            player.body.checkCollision.down = false // Allow passing through
         } else if (player.body.touching.down && !this.isCrouching) {
-            player.body.checkCollision.down = true; // Normal collision behavior when not crouching
+            player.body.checkCollision.down = true // Normal collision behavior when not crouching
         }
     }
     
 
     handlePlatformCollision(player, platform) {
         if (player.body.y < platform.body.top) {
-            player.y = platform.body.top;
-            player.body.velocity.y = 0;
+            player.y = platform.body.top
+            player.body.velocity.y = 0
         }
     }
 
